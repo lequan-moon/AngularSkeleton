@@ -4,7 +4,7 @@
 <body>
 
 <div ng-app='search_console' ng-controller='searchConsole' 
-	data-ng-init="siteUrl='http://r.gnavi.co.jp'; limit='1000'; filter={operator:'contains'}; startDate='2015-09-20'; endDate='2015-12-18'; dimension='query'">
+	data-ng-init="siteUrl='xxxxxx'; limit='1000'; filter={operator:'contains'}; startDate='2015-09-20'; endDate='2015-12-18'; dimension='query'">
 	<table>
 		<tr><td>SiteURL: </td><td><input type="text" ng-model='siteUrl'/></td></tr>
 		<tr><td>Start Date: </td><td><input type="text" ng-model='startDate'/></td></tr>
@@ -33,8 +33,7 @@
 
 </body>
 <script>
-//var url = 'http://lequan.gnavi-test.co.jp/search_console/getDataSearchConsole.php';
-var url = 'http://lequan.gnavi-test.co.jp/search_console/Getdatatest.php';
+var url = 'http://localhost/search_console/Getdatatest.php';
 var searchConsole = angular.module("search_console", []);
 
 searchConsole.controller('searchConsole', function($scope, $http) {

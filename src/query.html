@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app='search_console' ng-controller='searchConsole' 
+	data-ng-init="siteUrl='http://r.gnavi.co.jp'; limit='1000'; filter={operator:'contains'}; startDate='2015-09-20'; endDate='2015-12-18'; dimension='query'">
+	<table>
+		<tr><td>SiteURL: </td><td><input type="text" ng-model='siteUrl'/></td></tr>
+		<tr><td>Start Date: </td><td><input type="text" ng-model='startDate'/></td></tr>
+		<tr><td>End Date: </td><td><input type="text" ng-model='endDate'/><br></td></tr>
+		<tr><td>Limit: </td><td><input type="text" ng-model='limit'/></td></tr>
+		<tr><td>Dimension: </td><td><input type="text" ng-model='dimension'/></td></tr>
+		<tr><td>Filter Dimension: </td><td><input type="text" ng-model='filter.dimension'/></td></tr>
+		<tr><td>Filter Operator: </td><td><input type="text" ng-model='filter.operator'/></td></tr>
+		<tr><td>Filter Expression: </td><td><input type="text" ng-model='filter.expression'/></td></tr>
+		<tr><td></td><td><button ng-click="getData()">GET DATA</button></td></tr>
+	</table>
+	<p id="errorMessage" style="color:red;display:none">Error! Please check input</p>
+	<p>Filtering:</p>
+	<p><input type="text" ng-model="test"></p>
+	<table border="1px">
+		<tr><th>Keys</th><th>clicks</th><th>ctr</th><th>impressions</th><th>position</th></tr>
+		<tr ng-repeat="rec in records | filter:test">
+			<td>{{ rec.keys }}</td>
+			<td>{{ rec.clicks }}</td>
+			<td>{{ rec.ctr }}</td>
+			<td>{{ rec.impressions }}</td>
+			<td>{{ rec.position }}</td>
+		</tr>
+	</table>
+</div>
+
+</body>
+<script>
+//var url = 'http://lequan.gnavi-test.co.jp/search_console/getDataSearchConsole.php';
+var url = 'http://lequan.gnavi-test.co.jp/search_console/Getdatatest.php';
+var searchConsole = angular.module("search_console", []);
+
+searchConsole.controller('searchConsole', function($scope, $http) {
+
+	$scope.getData = function(){
+		var destination = url + "?url=" + $scope.siteUrl
+								+ "&startDate=" + $scope.startDate
+								+ "&endDate=" + $scope.endDate
+								+ "&limit=" + $scope.limit
+								+ "&dimension=" + $scope.dimension
+								+ "&filterDimension=" + $scope.filter.dimension
+								+ "&filterOperator=" + $scope.filter.operator
+								+ "&filterExpression=" + $scope.filter.expression;
+		$http.get(destination)
+		.then(function(response){
+			if(response.status == 200) {
+				document.getElementById('errorMessage').style.display = 'none';
+				$scope.records = response.data;
+				$scope.rUrl = response.data.rUrl;
+			} else {
+				document.getElementById('errorMessage').style.display = 'block';
+			}
+			
+		});
+	}
+	
+});
+
+</script>
+</html>
